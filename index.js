@@ -91,8 +91,6 @@ const api = {
 	  
 		wirtebluetooth:function(writeStrCode,deviceId,serviceId,characteristicId){
 			let that = this;
-			// 如果数据超过20字节，建议分包
-			
 			//调用函数 str to bufferArray
 			let buffer = this.strToHexArray(writeStrCode);
 			console.log("写入数据中deviceId：" + deviceId);

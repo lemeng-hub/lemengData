@@ -6,6 +6,7 @@
 	<!-- 	 <button  type="primary" @tap="getBluetoothAdapterState">获取本机蓝牙适配器状态</button>
 		 <button  type="primary" @tap="onBluetoothAdapterStateChange">开启监听蓝牙适配器状态</button> -->
 		 <button  type="primary" @tap="closeBluetoothAdaptertwo">关闭蓝牙</button>
+		 <button  type="primary" @tap="goDeviceDetailsPage">跳转测试</button>
 	    <view v-for="device in devicesList" :key="device.deviceId" v-if="device.name !=''">
 			<div :class="clickclass"  @click="onclick(device.name)" v-if="isgetDevices">
 				<text v-if="isStartBluetooth">设备名称:{{ device.name }}</text><br>
@@ -63,6 +64,20 @@
 		  },
 		   methods: {
 			   
+			   // 跳转测试
+			   goDeviceDetailsPage:function(){
+				let self = this;
+				let Data = {
+					Isconnection:self.$data.isconnection,
+					DeviceId:self.$data.deviceId,
+					ServiceId:self.$data.serviceId,
+					WriteId:self.$data.characteristicId[0].writeId
+				};
+			    let newdata = JSON.stringify(Data)
+				 uni.navigateTo({
+				     url: "deviceDetailsPage", 
+				 });  
+			   },
 			   openBluetoothAdapter:function(){
 				   let self = this;
 				   uni.openBluetoothAdapter({
@@ -253,6 +268,9 @@
 								}
 							}
 							
+							// 开启通知服务
+							self.notifyBLECharacteristicValueChange();
+							
 						  },
 						  fail(res) {
 						  	console.log('device getBLEDeviceCharacteristics failed:', JSON.stringify(res));
@@ -300,9 +318,13 @@
 								  
 								  // 立即监听低功耗蓝牙设备的特征值变化事件
 								  uni.onBLECharacteristicValueChange(function (res) {
-									console.log(`characteristic ${res.characteristicId} has changed, now is ${res.value}`); 
+									// console.log(`characteristic ${res.characteristicId} has changed, now is ${res.value}`); 
 									var value = ab2hex(res.value);
-									console.log(value);
+									// console.log(value);
+									if(value === "0405aabbcc"){
+										console.log("连接成功，页面跳转");
+										self.goDeviceDetailsPage();
+									}
 								  });
 
 						  },
