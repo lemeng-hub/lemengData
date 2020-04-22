@@ -79,12 +79,14 @@ const api = {
 			var buffer = new ArrayBuffer(str.length >> 1);
 			let dataView = new DataView(buffer);
 			let ind = 0;
+			console.log("开始分割线^^^^^^打印以字节单位16进制^^^^^^^^^^^^^^^^^^^^^^^^");
 			for (var i = 0, len = str.length; i < len; i += 2) {
 				let code = parseInt(str.substr(i, 2), 16)
 				console.log("code:"+code)
 				dataView.setUint8(ind, code)
 				ind++
 			}
+			console.log("结束分割线vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv");
 			return buffer;
 		},
 	  
@@ -93,10 +95,12 @@ const api = {
 			let that = this;
 			//调用函数 str to bufferArray
 			let buffer = this.strToHexArray(writeStrCode);
-			console.log("写入数据中deviceId：" + deviceId);
-			console.log("写入数据中serviceId:" + serviceId);
-			console.log("写入数据中characteristicId:" + characteristicId);
-			console.log("分割线************************************");
+			console.log("开始分割线^^^^^^^^^^^写入函数^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+			console.log("写入数据到的deviceId：" + deviceId);
+			console.log("写入数据到的serviceId:" + serviceId);
+			console.log("写入数据到的characteristicId:" + characteristicId);
+			console.log("写入的数据" + writeStrCode);
+			console.log("结束分割线vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv");
 			uni.writeBLECharacteristicValue({
 				deviceId,
 				serviceId,
@@ -111,8 +115,8 @@ const api = {
 			});
 			that.sleep(500);
 		  
-	  }
+	  },
 	
-	
+
 };
 export default api;
